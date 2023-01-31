@@ -6,7 +6,6 @@ import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { setUser } from "./slices/userSlice";
-import MainPage from "./pages/MainPage";
 import { Link } from "react-router-dom";
 
 function App() {
