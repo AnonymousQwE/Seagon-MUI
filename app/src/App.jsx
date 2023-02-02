@@ -7,6 +7,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
 import { setUser } from "./slices/userSlice";
 import { Link } from "react-router-dom";
+import { Container } from "@mui/material";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,7 +37,7 @@ function App() {
       <Header />
       <MainRoutes />
 
-      <button
+      {/* <button
         onClick={() => {
           console.log(user);
         }}
@@ -48,7 +49,7 @@ function App() {
       <br />
       <Link to={"/"}>/</Link>
       <br />
-      <Link to={"/auth"}>AUTH</Link>
+      <Link to={"/auth"}>AUTH</Link> */}
     </>
   );
 }

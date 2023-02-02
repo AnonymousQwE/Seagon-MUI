@@ -11,12 +11,17 @@ import "@fontsource/roboto/700.css";
 
 import { Provider } from "react-redux";
 import { store } from "./slices/index";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { theme } from "./theme";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <ThemeProvider theme={theme}>
+      <Provider store={store}>
+        <CssBaseline enableColorScheme />
+        <App />
+      </Provider>
+    </ThemeProvider>
   </BrowserRouter>
 );

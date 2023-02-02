@@ -1,7 +1,10 @@
+import { Button, FormControl, Grid, OutlinedInput } from "@mui/material";
+import { Box } from "@mui/system";
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import { loginUser } from "../hooks/userHook";
+import LoginForm from "../components/Auth/LoginForm";
 
 export default function AuthPage() {
   const dispatch = useDispatch();
@@ -11,19 +14,20 @@ export default function AuthPage() {
 
   const { user } = useSelector((state) => state.user);
 
-  console.log(from);
   return user.id ? (
-    <Navigate to={from} />
+    <Navigate to={from} replace={true} />
   ) : (
-    <button
-      onClick={async () => {
-        await dispatch(
-          loginUser({ email: "admin@admin.uz", password: "admin123" })
-        );
-        navigate(from, { replace: true });
+    <Grid
+      container
+      sx={{
+        minHeight: window.innerHeight - 64,
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      Отправить1
-    </button>
+      <LoginForm dispatch={dispatch} navigate={navigate} from={from} />
+    </Grid>
   );
 }
+
+<button />;
