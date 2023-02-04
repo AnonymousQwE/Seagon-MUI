@@ -26,7 +26,7 @@ const userSlice = createSlice({
       state.status = "loading";
     });
     builder.addCase(getUserData.fulfilled, (state, action) => {
-      state.user += action.payload;
+      state.user = action.payload;
       state.status = "loaded";
     });
     builder.addCase(getUserData.rejected, (state, action) => {
@@ -34,6 +34,7 @@ const userSlice = createSlice({
       state.notify.push({ type: "error", content: action.payload });
     });
 
+    // !----- Авторизация пользователя -------!
     builder.addCase(loginUser.pending, (state) => {
       state.status = "loading";
     });
@@ -50,6 +51,7 @@ const userSlice = createSlice({
       state.status = "rejected";
     });
 
+    // !----- Регистрация пользователя -------!
     builder.addCase(registerUser.pending, (state, action) => {
       state.status = "loading";
     });
@@ -66,6 +68,7 @@ const userSlice = createSlice({
       state.status = "rejected";
     });
 
+    // !----- Выход пользователя -------!
     builder.addCase(logoutUser.pending, (state) => {
       state.status = "loading";
     });

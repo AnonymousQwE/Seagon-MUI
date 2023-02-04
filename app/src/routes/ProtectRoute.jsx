@@ -8,6 +8,8 @@ export default function ProtectRoute({ children }) {
 
   if (!user.id) {
     return <Navigate to="/auth" state={{ from: location }} />;
+  } else if (user.role !== "admin") {
+    return <Navigate to="/403" state={{ from: location }} />;
   } else {
     return children;
   }

@@ -8,7 +8,6 @@ export default function Notify({ notify }) {
   const [open, setOpen] = useState(false);
   const [type, setType] = useState("success");
   const [message, setMessage] = useState("");
-  const [read, setRead] = useState(false);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {

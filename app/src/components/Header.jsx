@@ -64,13 +64,18 @@ export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorNavEl, setAnchorNavEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
+  const isNavMenuOpen = Boolean(anchorNavEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
+  };
+  const handleNavMenuOpen = (event) => {
+    setAnchorNavEl(event.currentTarget);
   };
 
   const handleMobileMenuClose = () => {
@@ -79,6 +84,10 @@ export default function Header() {
 
   const handleMenuClose = () => {
     setAnchorEl(null);
+    handleMobileMenuClose();
+  };
+  const handleNavMenuClose = () => {
+    setAnchorNavEl(null);
     handleMobileMenuClose();
   };
 
@@ -122,6 +131,49 @@ export default function Header() {
         }}
       >
         Выйти из профиля
+      </MenuItem>
+    </Menu>
+  );
+  const navMenuId = "primary-nav-menu";
+  const renderNavMenu = (
+    <Menu
+      anchorEl={anchorNavEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={navMenuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isNavMenuOpen}
+      onClose={handleNavMenuClose}
+    >
+      <MenuItem
+        onClick={() => {
+          navigate("/");
+          handleNavMenuClose();
+        }}
+      >
+        Главная
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          navigate("admin");
+          handleNavMenuClose();
+        }}
+      >
+        Админ Панель
+      </MenuItem>
+      <MenuItem
+        onClick={() => {
+          navigate("setting");
+          handleNavMenuClose();
+        }}
+      >
+        Настройки
       </MenuItem>
     </Menu>
   );
@@ -186,7 +238,10 @@ export default function Header() {
             size="large"
             edge="start"
             color="inherit"
-            aria-label="open drawer"
+            aria-label="open nav menu"
+            aria-haspopup="true"
+            aria-controls={navMenuId}
+            onClick={handleNavMenuOpen}
             sx={{ mr: 2 }}
           >
             <MenuIcon />
@@ -256,6 +311,7 @@ export default function Header() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {renderNavMenu}
     </Box>
   );
 }

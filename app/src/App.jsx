@@ -9,6 +9,7 @@ import { setUser } from "./slices/userSlice";
 import { Link } from "react-router-dom";
 import { Alert, AlertTitle, Button, Container, Snackbar } from "@mui/material";
 import Notify from "./components/Notify";
+import { getUserData } from "./hooks/userHook";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,13 +17,15 @@ function App() {
 
   function checkCurrentUser() {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user?.uid) {
         dispatch(
-          setUser({
-            id: user.uid,
-            email: user.email,
-            displayName: user.providerData[0].displayName,
-            photoURL: user.providerData[0].photoURL,
+          getUserData({
+            user: {
+              id: user.uid,
+              email: user.email,
+              displayName: user.providerData[0].displayName,
+              photoURL: user.providerData[0].photoURL,
+            },
           })
         );
         return user;
@@ -31,27 +34,13 @@ function App() {
       }
     });
   }
-  useEffect(checkCurrentUser, [dispatch]);
+  useEffect(checkCurrentUser, []);
 
   return (
     <>
       <Notify notify={notify} />
       <Header />
       <MainRoutes />
-
-      {/* <button
-        onClick={() => {
-          console.log(user);
-        }}
-      >
-        ЧЕЕЕК
-      </button>
-      <br />
-      <Link to={"admin"}>АДМИН</Link>
-      <br />
-      <Link to={"/"}>/</Link>
-      <br />
-      <Link to={"/auth"}>AUTH</Link> */}
     </>
   );
 }

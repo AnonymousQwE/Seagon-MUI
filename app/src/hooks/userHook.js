@@ -9,9 +9,15 @@ import { auth, db } from "../firebase";
 
 export const getUserData = createAsyncThunk(
   "user/getUserData",
-  async ({ userId }, { rejectWithValue }) => {
+  async ({ user }, { rejectWithValue }) => {
     try {
+      const userData = await getDoc(doc(db, "users", user.id));
+      if (userData.exists()) {
+        const result = { ...user, ...userData.data() };
+        return result;
+      }
     } catch (error) {
+      console.log(error);
       let errorData;
       switch (error.code) {
         case "auth/email-already-in-use":
@@ -30,6 +36,7 @@ export const getUserData = createAsyncThunk(
   }
 );
 
+// !----- Регистрация пользователя -------!
 export const registerUser = createAsyncThunk(
   "user/registerUser",
   async ({ password, email }, { rejectWithValue }) => {
@@ -76,13 +83,13 @@ export const registerUser = createAsyncThunk(
   }
 );
 
+// !----- Авторизация пользователя -------!
 export const loginUser = createAsyncThunk(
   "user/loginUser",
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const user = await signInWithEmailAndPassword(auth, email, password).then(
         (userCredential) => {
-          // Signed in
           const serverUser = userCredential.user;
           return {
             id: serverUser.uid,
@@ -92,10 +99,10 @@ export const loginUser = createAsyncThunk(
           };
         }
       );
-
       const userData = await getDoc(doc(db, "users", user.id));
       if (userData.exists()) {
-        return { ...user, ...userData.data() };
+        const result = { ...user, ...userData.data() };
+        return result;
       }
 
       return user;
@@ -119,6 +126,7 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+// !----- Выход пользователя -------!
 export const logoutUser = createAsyncThunk(
   "user/serverLogoutUser",
   async () => {
@@ -134,6 +142,7 @@ export const logoutUser = createAsyncThunk(
   }
 );
 
+// !----- Данные пользователя с Firebase Auth -------!
 // {
 //   "uid": "VFEoIGm9jiYl8yRD7rh48pzPLk52",
 //   "email": "8168620@gmail.com",

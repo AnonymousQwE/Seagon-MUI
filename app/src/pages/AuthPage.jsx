@@ -9,7 +9,6 @@ import AuthForm from "../components/Auth/AuthForm";
 export default function AuthPage() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const navigate = useNavigate();
   const from = location?.state?.from?.pathname || "/";
 
   const { user } = useSelector((state) => state.user);
@@ -25,7 +24,7 @@ export default function AuthPage() {
         alignItems: "center",
       }}
     >
-      <AuthForm dispatch={dispatch} navigate={navigate} from={from} />
+      <AuthForm dispatch={dispatch} />
     </Grid>
   );
 }
