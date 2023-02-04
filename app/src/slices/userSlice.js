@@ -4,7 +4,6 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  serverUser,
 } from "../hooks/userHook";
 
 const userSlice = createSlice({
@@ -58,7 +57,7 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.notify.push({
         type: "success",
-        content: "Вы успешно зарегистрировались!",
+        content: "Вы успешно зарегистрировались!Добро пожаловать!",
       });
       state.status = "loaded";
     });

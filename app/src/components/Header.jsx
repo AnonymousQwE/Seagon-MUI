@@ -103,14 +103,22 @@ export default function Header() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      <MenuItem
+        onClick={() => {
+          navigate("admin");
+          handleMenuClose();
+        }}
+      >
         {user.email ? user?.email : "Гость"}
       </MenuItem>
       <MenuItem
         onClick={() => {
-          dispatch(logoutUser());
+          console.log(user);
+          if (user?.email) {
+            dispatch(logoutUser());
+            navigate("/");
+          }
           handleMenuClose();
-          navigate("/");
         }}
       >
         Выйти из профиля

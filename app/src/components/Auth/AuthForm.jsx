@@ -8,16 +8,20 @@ import {
   IconButton,
   InputAdornment,
   InputLabel,
+  Link,
   OutlinedInput,
+  Typography,
 } from "@mui/material";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { loginUser } from "../../hooks/userHook";
+import { loginUser, registerUser } from "../../hooks/userHook";
 
-export default function LoginForm({ dispatch, navigate, from }) {
+export default function AuthForm({ dispatch }) {
+  const [action, setAction] = useState("login");
   const [showPassword, setShowPassword] = useState(false);
-  const { user } = useSelector((state) => state.user);
+  const { status } = useSelector((state) => state.user);
+  
   const {
     register,
     formState: { errors },
@@ -27,7 +31,9 @@ export default function LoginForm({ dispatch, navigate, from }) {
   });
 
   const onSubmit = (data) => {
-    dispatch(loginUser(data));
+    action === "login"
+      ? dispatch(loginUser(data))
+      : dispatch(registerUser(data));
   };
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -40,13 +46,22 @@ export default function LoginForm({ dispatch, navigate, from }) {
       <Box
         display={"flex"}
         flexDirection={"column"}
+        alignItems={"center"}
         gap={1}
-        p={5}
+        px={5}
+        py={2}
         boxShadow={4}
         component={"form"}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <FormControl error={!!errors?.email} sx={{ m: 1 }} variant="outlined">
+        <Typography sx={{ fontWeight: "bold", fontSize: 25 }}>
+          {action === "login" ? "Авторизация" : "Регистрация"}
+        </Typography>
+        <FormControl
+          error={!!errors?.email}
+          sx={{ minWidth: "100%", m: 1 }}
+          variant="outlined"
+        >
           <InputLabel htmlFor="email">Email</InputLabel>
           <OutlinedInput
             id="email"
@@ -63,7 +78,7 @@ export default function LoginForm({ dispatch, navigate, from }) {
 
         <FormControl
           error={!!errors?.password}
-          sx={{ m: 1 }}
+          sx={{ minWidth: "100%", m: 1 }}
           variant="outlined"
         >
           <InputLabel htmlFor="password">Пароль</InputLabel>
@@ -94,12 +109,25 @@ export default function LoginForm({ dispatch, navigate, from }) {
           </FormHelperText>
         </FormControl>
         <Button
-          disabled={!!errors.email || !!errors.password}
+          disabled={!!errors.email || !!errors.password || status === "loading"}
           type="submit"
           variant="contained"
         >
-          Войти
+          {action === "login" ? "Войти" : "Зарегистрироваться"}
         </Button>
+        <Typography sx={{ fontSize: 12 }}>
+          {action === "login" ? "Еще нет аккаунта?" : "Уже есть аккаунт?"}
+        </Typography>
+        <Link
+          onClick={(e) => {
+            e.preventDefault();
+            setAction(action === "login" ? "register" : "login");
+          }}
+          href=""
+          sx={{ fontSize: 12 }}
+        >
+          {action === "login" ? "Зарегистрироваться" : "Войти"}
+        </Link>
       </Box>
     </Grid>
   );

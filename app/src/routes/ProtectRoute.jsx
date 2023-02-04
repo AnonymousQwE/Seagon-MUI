@@ -7,7 +7,6 @@ export default function ProtectRoute({ children }) {
   const { user } = useSelector((state) => state.user);
 
   if (!user.id) {
-    console.log(user);
     return <Navigate to="/auth" state={{ from: location }} />;
   } else {
     return children;

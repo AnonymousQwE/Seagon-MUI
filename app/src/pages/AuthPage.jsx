@@ -4,7 +4,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import LoginForm from "../components/Auth/LoginForm";
+import AuthForm from "../components/Auth/AuthForm";
 
 export default function AuthPage() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function AuthPage() {
         alignItems: "center",
       }}
     >
-      <LoginForm dispatch={dispatch} navigate={navigate} from={from} />
+      <AuthForm dispatch={dispatch} navigate={navigate} from={from} />
     </Grid>
   );
 }
