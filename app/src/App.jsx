@@ -2,12 +2,9 @@ import "./App.css";
 import Header from "./components/Header";
 import MainRoutes from "./routes/MainRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import { setUser } from "./slices/userSlice";
-import { Link } from "react-router-dom";
-import { Alert, AlertTitle, Button, Container, Snackbar } from "@mui/material";
 import Notify from "./components/Notify";
 import { getUserData } from "./hooks/userHook";
 

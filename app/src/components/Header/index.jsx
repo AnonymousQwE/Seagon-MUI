@@ -4,11 +4,11 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
-import NavMenu from "./Header/NavMenu";
-import ProfileMenu from "./Header/ProfileMenu";
+import NavMenu from "./NavMenu";
+import ProfileMenu from "./ProfileMenu";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Search from "./Header/Search";
+import Search from "./Search";
 
 export default function Header() {
   const navigate = useNavigate();
