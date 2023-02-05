@@ -3,6 +3,7 @@ import { Container } from "@mui/system";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 import { logoutUser } from "../hooks/userHook";
 
 export default function MainPage() {
@@ -11,15 +12,11 @@ export default function MainPage() {
   const navigate = useNavigate();
 
   return (
-    <Grid container>
-      <Grid
-        sx={{ background: "red", minHeight: window.innerHeight - 64 }}
-        item
-        xs={3}
-      >
-        xs=8
+    <Grid sx={{ minHeight: window.innerHeight - 64 }} container>
+      <Grid item xs={4}>
+        <Sidebar />
       </Grid>
-      <Grid sx={{ background: "green" }} item xs={9}>
+      <Grid item sx={{ background: "green" }} xs={8}>
         xs=4
       </Grid>
     </Grid>
