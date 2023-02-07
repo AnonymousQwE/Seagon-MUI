@@ -20,17 +20,6 @@ export default function Sidebar({ setOpen }) {
 
   return (
     <>
-      <Typography
-        sx={{
-          textAlign: "center",
-          fontSize: 20,
-          
-          fontWeight: "bold",
-          marginTop: 1,
-        }}
-      >
-        Корзина
-      </Typography>
       <Box
         sx={{
           height: "100%",
@@ -39,6 +28,17 @@ export default function Sidebar({ setOpen }) {
           justifyContent: "space-between",
         }}
       >
+        <Typography
+          sx={{
+            textAlign: "center",
+            fontSize: 20,
+
+            fontWeight: "bold",
+            marginTop: 1,
+          }}
+        >
+          Корзина
+        </Typography>
         <List sx={{ width: "100%", bgcolor: "background.paper" }}>
           {cart.map((item) => (
             <CartItem key={item.id} item={item} />
