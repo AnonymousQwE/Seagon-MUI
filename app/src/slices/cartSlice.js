@@ -35,9 +35,19 @@ const cartSlice = createSlice({
     clearCartNotify: (state) => {
       state.notify = [];
     },
+    changeCountToCart: (state, action) => {
+      const idx = state.cart.findIndex((item) => item.id === action.payload.id);
+      state.cart[idx].count += action.payload.count;
+      if (state.cart[idx].count == 0) {
+        state.cart = state.cart.filter(
+          (product) => product.id !== action.payload.id
+        );
+      }
+    },
   },
 });
 
-export const { addToCart, removeToCart, clearCartNotify } = cartSlice.actions;
+export const { addToCart, removeToCart, clearCartNotify, changeCountToCart } =
+  cartSlice.actions;
 
 export default cartSlice.reducer;

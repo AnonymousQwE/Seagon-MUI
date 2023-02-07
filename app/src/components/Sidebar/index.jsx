@@ -1,11 +1,8 @@
 import * as React from "react";
 import List from "@mui/material/List";
-import { Button, Divider, IconButton, Typography } from "@mui/material";
+import { Button, Divider, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../slices/cartSlice";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../firebase";
 import CartItem from "./CartItem";
 
 export default function Sidebar({ setOpen }) {
@@ -23,17 +20,26 @@ export default function Sidebar({ setOpen }) {
 
   return (
     <>
+      <Typography
+        sx={{
+          textAlign: "center",
+          fontSize: 20,
+          
+          fontWeight: "bold",
+          marginTop: 1,
+        }}
+      >
+        Корзина
+      </Typography>
       <Box
         sx={{
-          minHeight: "100%",
+          height: "100%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
         }}
       >
-        <List
-          sx={{ width: "100%", bgcolor: "background.paper" }}
-        >
+        <List sx={{ width: "100%", bgcolor: "background.paper" }}>
           {cart.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}

@@ -3,8 +3,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
-import { Delete } from "@mui/icons-material";
-import { removeToCart } from "../../slices/cartSlice";
+import { Add, Delete, Remove } from "@mui/icons-material";
+import { changeCountToCart, removeToCart } from "../../slices/cartSlice";
 import { Box } from "@mui/system";
 import { Divider, IconButton, Typography } from "@mui/material";
 import { useDispatch } from "react-redux";
@@ -17,15 +17,46 @@ export default function CartItem({ item }) {
       <ListItem
         secondaryAction={
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Typography fontSize={{ xs: 13, md: 15 }}>
-              {(item.count * item.price).toLocaleString("ru")} сум
-            </Typography>
+            <Box width={95}>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <IconButton
+                  onClick={() => {
+                    dispatch(changeCountToCart({ id: item.id, count: 1 }));
+                  }}
+                >
+                  <Add fontSize="small" />
+                </IconButton>
+                <Typography
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                  fontSize={{ xs: 15, md: 18 }}
+                >
+                  {item.count.toLocaleString("ru")}
+                </Typography>
+                <IconButton
+                  sx={{
+                    display: item.count > 1 ? "flex" : "none",
+                  }}
+                  onClick={() => {
+                    dispatch(changeCountToCart({ id: item.id, count: -1 }));
+                  }}
+                >
+                  <Remove fontSize="small" />
+                </IconButton>
+              </Box>
+              <Typography fontSize={{ xs: 10, md: 13 }}>
+                {(item.count * item.price).toLocaleString("ru")} сум
+              </Typography>
+            </Box>
             <IconButton
+              sx={{ fontSize: { xs: 40, md: 30 } }}
               onClick={() => {
                 dispatch(removeToCart(item));
               }}
             >
-              <Delete sx={{ fontSize: { xs: 40, md: 30 } }} />
+              <Delete />
             </IconButton>
           </Box>
         }
@@ -48,8 +79,7 @@ export default function CartItem({ item }) {
             </Typography>
           }
           secondary={
-            <Typography fontSize={{ xs: 12, md: 12, lg: 17 }}>
-              {item.count.toLocaleString("ru")} шт |
+            <Typography fontSize={{ xs: 10, md: 12, lg: 14 }}>
               {item.price.toLocaleString("ru")} сум
             </Typography>
           }

@@ -1,4 +1,4 @@
-import { Shop } from "@mui/icons-material";
+import { Shop, ShoppingCart } from "@mui/icons-material";
 import { Box, Fab, Grid } from "@mui/material";
 import { useState } from "react";
 
@@ -13,7 +13,7 @@ export default function MainPage() {
   return (
     <Grid sx={{ height: window.innerHeight - 64 }} container>
       <Grid
-        sx={{ height: window.innerHeight - 64 }}
+        sx={{ height: window.innerHeight - 64, overflow: "hidden" }}
         display={{ md: "block", xs: open ? "block" : "none" }}
         item
         xs={12}
@@ -55,7 +55,7 @@ export default function MainPage() {
         </Box>
         <Fab
           sx={{
-            display: { xs: open ? "none" : "block", md: "none" },
+            display: { xs: open ? "none" : "flex", md: "none" },
             position: "absolute",
             right: 20,
             bottom: 20,
@@ -67,7 +67,7 @@ export default function MainPage() {
           color="primary"
           aria-label="cart"
         >
-          <Shop />
+          <ShoppingCart />
         </Fab>
       </Grid>
     </Grid>

@@ -24,23 +24,24 @@ export default function Notify() {
     return <Slide {...props} direction="down" />;
   }
 
-  function checkNotify(arr) {
-    arr.forEach((not) => {
-      setOpen(true);
+  useEffect(() => {
+    notify.forEach((not) => {
       setType(not.type);
       setMessage(not.content);
+      setOpen(true);
+      if (notify.length !== 0) {
+        dispatch(clearNotify());
+      }
     });
-  }
-
-  useEffect(() => {
-    checkNotify(notify);
-    checkNotify(cart.notify);
-    if (cart.notify.length !== 0) {
-      dispatch(clearCartNotify());
-    } else if (notify.length !== 0) {
-      setMessage("");
-      dispatch(clearNotify());
-    }
+    cart.notify.forEach((not) => {
+      setType(not.type);
+      setMessage(not.content);
+      setOpen(true);
+      console.log(message);
+      if (cart.notify.length !== 0) {
+        dispatch(clearCartNotify());
+      }
+    });
   }, [notify, cart.notify]);
   return Boolean(open) ? (
     <Snackbar
