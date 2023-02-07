@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+
 // !----- Добавление продукта -------!
 export const addProduct = createAsyncThunk(
   "products/addProduct",
@@ -35,20 +36,24 @@ export const getProducts = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const querySnapshot = await getDocs(collection(db, "products"));
+      console.log(querySnapshot);
+      let products = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-        const result = { id: doc.id, ...doc.data() };
-        console.log(result);
+        const result = {
+          id: doc.id,
+          ...doc.data(),
+          category: doc.data().category.id,
+        };
+        products.push(result);
       });
+      return products;
     } catch (error) {
       let errorData;
       console.log(error);
       switch (error.code) {
-        case "auth/email-already-in-use":
-          errorData = "Этот email уже используется в системе!";
-          break;
-        case "auth/weak-password":
-          errorData = "Пароль слишком лёгкий. Не менее 6 символов";
+        case "firestore/weak-password":
+          errorData = "ERROR";
           break;
 
         default:

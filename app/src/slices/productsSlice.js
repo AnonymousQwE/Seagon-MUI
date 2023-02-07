@@ -5,12 +5,19 @@ const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    category: [],
     status: null,
     notify: [],
   },
   reducers: {
     clearNotify: (state) => {
       state.notify = [];
+    },
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
+    setCategory: (state, action) => {
+      state.category = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -81,6 +88,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { clearNotify } = productsSlice.actions;
+export const { clearNotify, setProducts, setCategory } = productsSlice.actions;
 
 export default productsSlice.reducer;

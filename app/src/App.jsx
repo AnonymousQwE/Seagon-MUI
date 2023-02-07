@@ -2,15 +2,20 @@ import "./App.css";
 import Header from "./components/Header";
 import MainRoutes from "./routes/MainRoutes";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import Notify from "./components/Notify";
 import { getUserData } from "./hooks/userHook";
+import { collection, getDocs, onSnapshot } from "firebase/firestore";
+import { setCategory, setProducts } from "./slices/productsSlice";
+import { Fab } from "@mui/material";
+import { Shop } from "@mui/icons-material";
 
 function App() {
+  const productsRef = collection(db, "products");
+  const categoryRef = collection(db, "categories");
   const dispatch = useDispatch();
-  const { user, notify } = useSelector((state) => state.user);
 
   function checkCurrentUser() {
     onAuthStateChanged(auth, (user) => {
@@ -31,11 +36,39 @@ function App() {
       }
     });
   }
-  useEffect(checkCurrentUser, []);
+
+  useEffect(() => {
+    checkCurrentUser();
+    const ubsubCategory = onSnapshot(categoryRef, (snap) => {
+      dispatch(
+        setCategory(
+          snap.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        )
+      );
+    });
+
+    const unsubProduct = onSnapshot(productsRef, (snap) => {
+      dispatch(
+        setProducts(
+          snap.docs.map((doc) => ({
+            ...doc.data(),
+            id: doc.id,
+          }))
+        )
+      );
+    });
+    return () => {
+      unsubProduct();
+      ubsubCategory();
+    };
+  }, []);
 
   return (
     <>
-      <Notify notify={notify} />
+      <Notify />
       <Header />
       <MainRoutes />
     </>
