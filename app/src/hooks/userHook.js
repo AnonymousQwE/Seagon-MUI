@@ -11,11 +11,13 @@ export const getUserData = createAsyncThunk(
   "user/getUserData",
   async ({ user }, { rejectWithValue }) => {
     try {
-      const userData = await getDoc(doc(db, "users", user.id));
-      if (userData.exists()) {
-        const result = { ...user, ...userData.data() };
-        return result;
-      }
+      if (user.id) {
+        const userData = await getDoc(doc(db, "users", user.id));
+        if (userData.exists()) {
+          const result = { ...user, ...userData.data() };
+          return result;
+        }
+      } else return {};
     } catch (error) {
       console.log(error);
       let errorData;
@@ -108,6 +110,7 @@ export const loginUser = createAsyncThunk(
       return user;
     } catch (error) {
       let errorData;
+      console.log(error.code);
       switch (error.code) {
         case "auth/user-not-found":
           errorData =
@@ -117,8 +120,12 @@ export const loginUser = createAsyncThunk(
           errorData = "Пароль неверный. Проверьте введенный пароль!";
           break;
 
+        case "auth/too-many-requests":
+          errorData = "Слишком много запросов. Попробуйте позже!";
+          break;
+
         default:
-          errorData = "Неизвестная ошибка. Обратитесь к администратору!";
+          errorData = "Неизвестная ошибка. Пожалуйста обратитесь к администратору!";
           break;
       }
       return rejectWithValue(errorData);

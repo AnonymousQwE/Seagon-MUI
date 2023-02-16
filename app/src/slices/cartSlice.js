@@ -28,7 +28,7 @@ const cartSlice = createSlice({
         (product) => product.id !== action.payload.id
       );
       state.notify.push({
-        type: "success",
+        type: "error",
         content: `${action.payload.title} удален с корзины`,
       });
     },

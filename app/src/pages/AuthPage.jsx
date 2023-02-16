@@ -11,7 +11,7 @@ export default function AuthPage() {
   const location = useLocation();
   const from = location?.state?.from?.pathname || "/";
 
-  const { user } = useSelector((state) => state.user);
+  const { user, status } = useSelector((state) => state.user);
 
   return user.id ? (
     <Navigate to={from} replace={true} />

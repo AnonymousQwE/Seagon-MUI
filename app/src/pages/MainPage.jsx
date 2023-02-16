@@ -12,16 +12,7 @@ export default function MainPage() {
 
   return (
     <Grid sx={{ height: window.innerHeight - 64 }} container>
-      <Grid
-        sx={{ height: window.innerHeight - 64, overflow: "hidden" }}
-        display={{ md: "block", xs: open ? "block" : "none" }}
-        item
-        xs={12}
-        md={5}
-        xl={4}
-      >
-        <Sidebar setOpen={setOpen} />
-      </Grid>
+      <Sidebar setOpen={setOpen} />
       <Grid
         item
         sx={{
@@ -31,8 +22,8 @@ export default function MainPage() {
           background: "#534000",
         }}
         xs={12}
-        md={7}
-        xl={8}
+        // md={7}
+        // xl={8}
       >
         <Box
           sx={{
@@ -53,22 +44,6 @@ export default function MainPage() {
             />
           ))}
         </Box>
-        <Fab
-          sx={{
-            display: { xs: open ? "none" : "flex", md: "none" },
-            position: "absolute",
-            right: 20,
-            bottom: 20,
-          }}
-          onClick={() => {
-            setOpen(!open);
-          }}
-          variant="regular"
-          color="primary"
-          aria-label="cart"
-        >
-          <ShoppingCart />
-        </Fab>
       </Grid>
     </Grid>
   );

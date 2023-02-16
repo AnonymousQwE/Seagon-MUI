@@ -36,7 +36,7 @@ const userSlice = createSlice({
 
     // !----- Авторизация пользователя -------!
     builder.addCase(loginUser.pending, (state) => {
-      state.status = "loading";
+      state.status = "loadUser";
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.user = action.payload;

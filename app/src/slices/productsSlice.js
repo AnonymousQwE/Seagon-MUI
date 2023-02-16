@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { addProduct, getProducts } from "../hooks/productsHook";
+import { addProduct, getStorage } from "../hooks/productsHook";
 
 const productsSlice = createSlice({
   name: "products",
@@ -22,14 +22,14 @@ const productsSlice = createSlice({
   },
   extraReducers: (builder) => {
     // !----- Получение продуктов -------!
-    builder.addCase(getProducts.pending, (state) => {
+    builder.addCase(getStorage.pending, (state) => {
       state.status = "loading";
     });
-    builder.addCase(getProducts.fulfilled, (state, action) => {
+    builder.addCase(getStorage.fulfilled, (state, action) => {
       state.products = action.payload;
       state.status = "loaded";
     });
-    builder.addCase(getProducts.rejected, (state, action) => {
+    builder.addCase(getStorage.rejected, (state, action) => {
       state.status = "rejected";
       state.notify.push({ type: "error", content: action.payload });
     });

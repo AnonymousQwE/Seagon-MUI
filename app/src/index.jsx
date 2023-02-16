@@ -13,15 +13,18 @@ import { Provider } from "react-redux";
 import { store } from "./slices/index";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { theme } from "./theme";
+import { SnackbarProvider } from "notistack";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <CssBaseline enableColorScheme />
-        <App />
-      </Provider>
-    </ThemeProvider>
+    <SnackbarProvider>
+      <ThemeProvider theme={theme}>
+        <Provider store={store}>
+          <CssBaseline enableColorScheme />
+          <App />
+        </Provider>
+      </ThemeProvider>
+    </SnackbarProvider>
   </BrowserRouter>
 );

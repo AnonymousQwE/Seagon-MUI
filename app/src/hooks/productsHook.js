@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
 // !----- Добавление продукта -------!
@@ -30,37 +30,47 @@ export const addProduct = createAsyncThunk(
     }
   }
 );
-// !----- Получение продуктов -------!
-export const getProducts = createAsyncThunk(
-  "products/getProducts",
-  async (_, { rejectWithValue }) => {
-    try {
-      const querySnapshot = await getDocs(collection(db, "products"));
-      console.log(querySnapshot);
-      let products = [];
-      querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-        const result = {
-          id: doc.id,
-          ...doc.data(),
-          category: doc.data().category.id,
-        };
-        products.push(result);
-      });
-      return products;
-    } catch (error) {
-      let errorData;
-      console.log(error);
-      switch (error.code) {
-        case "firestore/weak-password":
-          errorData = "ERROR";
-          break;
+// !----- Получение хранилища продукта -------!
+export const getStorage = createAsyncThunk(
+  "products/getStorage",
+  async (props, { rejectWithValue }) => {
+    console.log(props);
+    // try {
+    //   const storagesSnapshot = await getDocs(collection(db, `storages`));
+    //   console.log(storagesSnapshot);
+    // let storages = [];
+    // storagesSnapshot.forEach((doc, i) => {
+    //   const result = {
+    //     ...doc.data(),
+    //   };
+    // });
+    // return storages;
+    // } catch (error) {
+    //   let errorData;
+    //   console.log(error);
+    //   switch (error.code) {
+    //     case "firestore/weak-password":
+    //       errorData = "ERROR";
+    //       break;
 
-        default:
-          errorData = "Неизвестная ошибка. Обратитесь к администратору!";
-          break;
-      }
-      return rejectWithValue(errorData);
+    //     default:
+    //       errorData = "Неизвестная ошибка. Обратитесь к администратору!";
+    //       break;
+    //   }
+    //   return rejectWithValue(errorData);
+    // }
+  }
+);
+// !----- Изменение продукта -------!
+export const setProducts = createAsyncThunk(
+  "products/setProducts",
+  async ({ product }, { rejectWithValue }) => {
+    try {
+      const productDoc = doc(db, "products", product.id);
+      const newImage = { image: product.image };
+      await updateDoc(productDoc, newImage);
+    } catch (e) {
+      console.log("Transaction failed: ", e);
     }
   }
 );
